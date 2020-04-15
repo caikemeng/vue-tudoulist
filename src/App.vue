@@ -1,32 +1,69 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <a-input placeholder="请输入任务" class="my_ipt" :value="inputVal" />
+    <a-button type="primary" @click="addItemList">添加事项</a-button>
+
+    <a-list bordered :dataSource="list" class="dt_list">
+      <a-list-item slot="renderItem" slot-scope="item">
+        <!-- 复选框 -->
+        <a-checkbox :checked="item.done">{{item.info}}</a-checkbox>
+        <!-- 删除链接 -->
+        <a slot="actions" @click="delItemList(item.id)">删除</a>
+      </a-list-item>
+
+      <!-- footer区域 -->
+      <div slot="footer" class="footer">
+        <!-- 未完成的任务个数 -->
+        <span>2条剩余</span>
+        <!-- 操作按钮 -->
+        <a-button-group>
+          <a-button :type="viewKey === 'all' ? 'primary' : 'default'" >全部</a-button>
+          <a-button :type="viewKey === 'undone' ? 'primary' : 'default'" >未完成</a-button>
+          <a-button :type="viewKey === 'done' ? 'primary' : 'default'">已完成</a-button>
+        </a-button-group>
+        <!-- 把已经完成的任务清空 -->
+        <a >清除已完成</a>
+      </div>
+    </a-list>
   </div>
 </template>
 
-<style lang="less">
+<script>
+export default {
+  name: 'app',
+  data() {
+    return {
+      viewKey: 'all',
+      inputVal: '333'
+    }
+  },
+  created() {
+  },
+  computed: {
+  },
+  methods: {
+  }
+}
+</script>
+
+<style scoped>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  padding: 10px;
 }
 
-#nav {
-  padding: 30px;
+.my_ipt {
+  width: 500px;
+  margin-right: 10px;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+.dt_list {
+  width: 500px;
+  margin-top: 10px;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
