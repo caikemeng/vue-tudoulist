@@ -6,7 +6,7 @@
     <a-list bordered :dataSource="list" class="dt_list">
       <a-list-item slot="renderItem" slot-scope="item">
         <!-- 复选框 -->
-        <a-checkbox :checked="item.done">{{item.info}}</a-checkbox>
+        <a-checkbox :checked="item.done" @change="(e)=>{checkboxChange(e,item.id)}">{{item.info}}</a-checkbox>
         <!-- 删除链接 -->
         <a slot="actions" @click="delItemList(item.id)">删除</a>
       </a-list-item>
@@ -52,7 +52,7 @@ export default {
     // 点击按钮添加事项
     addItemList () {
       if (this.inputVal.trim().length <= 0) {
-        return this.$messge.warning('请输入内容')
+        return this.$message.warning('请输入内容')
       }
       this.$store.commit('addItem')
     },
@@ -62,6 +62,15 @@ export default {
         this.$store.commit('delItem', id)
         return this.$message.warning('已删除所选项')
       }
+    },
+    // 复选框状态改变事件
+    checkboxChange (e, id) {
+      console.log(e.target.checked)
+      let params = {
+        id: id,
+        done: e.target.checked
+      }
+      this.$store.commit('getCheckboxChange', params)
     }
   }
 }

@@ -36,7 +36,15 @@ export default new Vuex.Store({
     delItem(state, id) {
       // 根据ID获取索引值
       let index = state.list.findIndex(x => x.id === id)
+      // 根据索引值删除对应事项
       state.list.splice(index, 1)
+    },
+    // 改变复选框状态
+    getCheckboxChange(state, params) {
+      // 根据ID获取索引值
+      let index = state.list.findIndex(x => x.id === params.id)
+      // 根据索引值改变对应事项复选框的状态
+      state.list[index].done = params.done
     }
   },
   actions: {
