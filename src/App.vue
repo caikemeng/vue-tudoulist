@@ -14,34 +14,34 @@
       <!-- footer区域 -->
       <div slot="footer" class="footer">
         <!-- 未完成的任务个数 -->
-        <span>2条剩余</span>
+        <span>{{getDoneLength}}条剩余</span>
         <!-- 操作按钮 -->
         <a-button-group>
-          <a-button :type="viewKey === 'all' ? 'primary' : 'default'" >全部</a-button>
-          <a-button :type="viewKey === 'undone' ? 'primary' : 'default'" >未完成</a-button>
-          <a-button :type="viewKey === 'done' ? 'primary' : 'default'">已完成</a-button>
+          <a-button :type="viewKey === 'all' ? 'primary' : 'default'"  @click="changeKey('all')">全部</a-button>
+          <a-button :type="viewKey === 'undone' ? 'primary' : 'default'"  @click="changeKey('undone')">未完成</a-button>
+          <a-button :type="viewKey === 'done' ? 'primary' : 'default'" @click="changeKey('done')">已完成</a-button>
         </a-button-group>
         <!-- 把已经完成的任务清空 -->
-        <a >清除已完成</a>
+        <a @click="cleanItem">清除已完成</a>
       </div>
     </a-list>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'app',
   data() {
     return {
-      viewKey: 'all'
     }
   },
   created() {
     this.$store.dispatch('getList')
   },
   computed: {
-    ...mapState(['list', 'inputVal'])
+    ...mapState(['list', 'inputVal', 'viewKey']),
+    ...mapGetters(['getDoneLength'])
   },
   methods: {
     // 监听输入框内容的变化
@@ -71,6 +71,17 @@ export default {
         done: e.target.checked
       }
       this.$store.commit('getCheckboxChange', params)
+    },
+    // 清除已完成事项
+    cleanItem () {
+      if (confirm('你确定要清除吗') === true) {
+        this.$store.commit('cleanList')
+        return this.$message.warning('已清除完成事项')
+      }
+    },
+    // 点击切换高亮效果
+    changeKey (key) {
+      this.$store.commit('changeViewKey', key)
     }
   }
 }

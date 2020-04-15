@@ -11,7 +11,9 @@ export default new Vuex.Store({
     // 输入框内容
     inputVal: '111',
     // 事项ID
-    nextId: 5
+    nextId: 5,
+    // 事项完成高亮
+    viewKey: 'all'
   },
   mutations: {
     // 给inputVal重新赋值
@@ -45,6 +47,14 @@ export default new Vuex.Store({
       let index = state.list.findIndex(x => x.id === params.id)
       // 根据索引值改变对应事项复选框的状态
       state.list[index].done = params.done
+    },
+    // 清除已完成事项
+    cleanList (state) {
+      state.list = state.list.filter(x => x.done === false)
+    },
+    // 点击切换高亮效果
+    changeViewKey(state, key) {
+      state.viewKey = key
     }
   },
   actions: {
@@ -54,6 +64,12 @@ export default new Vuex.Store({
         console.log(data)
         context.commit('inList', data)
       })
+    }
+  },
+  getters: {
+    // 统计未完成事项
+    getDoneLength(state) {
+      return state.list.filter(x => x.done === false).length
     }
   }
 })
