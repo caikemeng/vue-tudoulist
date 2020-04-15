@@ -31,6 +31,12 @@ export default new Vuex.Store({
       state.list.push(obj)
       state.nextId++
       state.inputVal = ''
+    },
+    // 删除事项
+    delItem(state, id) {
+      // 根据ID获取索引值
+      let index = state.list.findIndex(x => x.id === id)
+      state.list.splice(index, 1)
     }
   },
   actions: {

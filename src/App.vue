@@ -55,6 +55,13 @@ export default {
         return this.$messge.warning('请输入内容')
       }
       this.$store.commit('addItem')
+    },
+    // 点击按钮删除事项
+    delItemList(id) {
+      if (confirm('你确定要删除吗') === true) {
+        this.$store.commit('delItem', id)
+        return this.$message.warning('已删除所选项')
+      }
     }
   }
 }
