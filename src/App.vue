@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <a-input placeholder="请输入任务" class="my_ipt" :value="inputVal" />
-    <a-button type="primary" @click="addItemList">添加事项</a-button>
+    <a-input placeholder="请输入任务" class="my_ipt" :value="inputVal" @change="inputValChange"/>
+    <a-button type="primary">添加事项</a-button>
 
     <a-list bordered :dataSource="list" class="dt_list">
       <a-list-item slot="renderItem" slot-scope="item">
@@ -29,19 +29,26 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'app',
   data() {
     return {
-      viewKey: 'all',
-      inputVal: '333'
+      viewKey: 'all'
     }
   },
   created() {
+    this.$store.dispatch('getList')
   },
   computed: {
+    ...mapState(['list', 'inputVal'])
   },
   methods: {
+    // 监听输入框内容的变化
+    inputValChange (e) {
+      console.log(e.target.value)
+      this.$store.commit('getInputVal', e.target.value)
+    }
   }
 }
 </script>
