@@ -3,7 +3,7 @@
     <a-input placeholder="请输入任务" class="my_ipt" :value="inputVal" @change="inputValChange"/>
     <a-button type="primary" @click="addItemList">添加事项</a-button>
 
-    <a-list bordered :dataSource="list" class="dt_list">
+    <a-list bordered :dataSource="infoList" class="dt_list">
       <a-list-item slot="renderItem" slot-scope="item">
         <!-- 复选框 -->
         <a-checkbox :checked="item.done" @change="(e)=>{checkboxChange(e,item.id)}">{{item.info}}</a-checkbox>
@@ -40,8 +40,8 @@ export default {
     this.$store.dispatch('getList')
   },
   computed: {
-    ...mapState(['list', 'inputVal', 'viewKey']),
-    ...mapGetters(['getDoneLength'])
+    ...mapState(['inputVal', 'viewKey']),
+    ...mapGetters(['getDoneLength', 'infoList'])
   },
   methods: {
     // 监听输入框内容的变化

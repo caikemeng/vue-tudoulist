@@ -70,6 +70,19 @@ export default new Vuex.Store({
     // 统计未完成事项
     getDoneLength(state) {
       return state.list.filter(x => x.done === false).length
+    },
+    // 判断切换的操作
+    infoList (state) {
+      if (state.viewKey === 'all') {
+        return state.list
+      }
+      if (state.viewKey === 'undone') {
+        return state.list.filter(x => x.done === false)
+      }
+      if (state.viewKey === 'done') {
+        return state.list.filter(x => x.done === true)
+      }
+      return state.list
     }
   }
 })
