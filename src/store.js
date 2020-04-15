@@ -9,7 +9,9 @@ export default new Vuex.Store({
     // 所有列表项
     list: [],
     // 输入框内容
-    inputVal: '111'
+    inputVal: '111',
+    // 事项ID
+    nextId: 5
   },
   mutations: {
     // 给inputVal重新赋值
@@ -18,6 +20,17 @@ export default new Vuex.Store({
     },
     getInputVal(state, val) {
       state.inputVal = val
+    },
+    // 添加事项
+    addItem(state) {
+      let obj = {
+        id: state.nextId,
+        info: state.inputVal,
+        done: false
+      }
+      state.list.push(obj)
+      state.nextId++
+      state.inputVal = ''
     }
   },
   actions: {
